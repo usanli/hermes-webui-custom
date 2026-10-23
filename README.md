@@ -5,10 +5,14 @@ Git is preconfigured to use `gh` as its credential helper, so a `GH_TOKEN` in th
 
 The included `docker-compose.yml` runs two services:
 
-- `hermes-agent`: the Hermes agent gateway (`nousresearch/hermes-agent:latest`)
+- `hermes-agent`: the Hermes agent gateway (`nousresearch/hermes-agent:v0.22.4`)
 - `hermes-webui`: the web UI, built from this repo's `Dockerfile`
 
 All data lives in named volumes (`hermes-home`, `hermes-agent-src`, `hermes-workspace`).
+
+## Pinned agent version
+
+`hermes-agent` is pinned to `v0.22.4` instead of `latest`, because the `latest` tag has a dependency conflict between `pillow==13.0.0` and `browser-harness==0.1.13`. Move to a newer tag once that is fixed upstream.
 
 ## Deploying on Coolify
 
