@@ -1,4 +1,4 @@
-FROM ghcr.io/nesquena/hermes-webui:latest
+FROM ghcr.io/nesquena/hermes-webui:latest@sha256:d0bbb1c5371b1f4b0a28e4cffa5f403780eb81601b66a6d6843f6fc338f08523
 USER root
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git openssh-client curl ca-certificates \

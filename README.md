@@ -1,6 +1,6 @@
 # hermes-webui-custom
 
-Custom image built on top of `ghcr.io/nesquena/hermes-webui:latest` that adds `git` and the GitHub CLI (`gh`).
+Custom image built on top of `ghcr.io/nesquena/hermes-webui` (pinned by digest, see below) that adds `git` and the GitHub CLI (`gh`).
 Git is preconfigured to use `gh` as its credential helper, so a `GH_TOKEN` in the environment is enough for clone, pull and push over HTTPS.
 
 The included `docker-compose.yml` runs two services:
@@ -13,6 +13,17 @@ All data lives in named volumes (`hermes-home`, `hermes-agent-src`, `hermes-work
 ## Pinned agent version
 
 `hermes-agent` is pinned to `v0.22.4` instead of `latest`, because the `latest` tag has a dependency conflict between `pillow==13.0.0` and `browser-harness==0.1.13`. Move to a newer tag once that is fixed upstream.
+
+## Pinned WebUI base image
+
+The `Dockerfile` pins the base image by digest (`ghcr.io/nesquena/hermes-webui:latest@sha256:d0bbb1c5...`). That digest is the WebUI build currently running and tested with `hermes-agent` `v0.22.4`, so rebuilds stay reproducible even when `latest` moves. When a digest is present, Docker ignores the `latest` tag and pulls exactly that digest.
+
+To update it:
+
+1. Get the digest of the build you want, for example the current `latest`:
+   `docker buildx imagetools inspect ghcr.io/nesquena/hermes-webui:latest` (use the top-level `Digest` line).
+2. Replace the `sha256:...` value on the `FROM` line in the `Dockerfile`.
+3. Test it together with the pinned `hermes-agent` version, then commit and redeploy.
 
 ## Deploying on Coolify
 
